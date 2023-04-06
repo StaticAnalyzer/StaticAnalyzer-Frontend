@@ -81,7 +81,7 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           if (this.mode == 'register') {
-            axios.post("/users", {
+            axios.post("/user", {
               username: this.form.username,
               password: this.form.password
             }).then(response => {
@@ -94,7 +94,7 @@ export default {
             })
           }
           else if (this.mode == 'login') {
-            axios.post("/auth/login", {
+            axios.post("/login", {
               username: this.form.username,
               password: this.form.password
             }).then(response => {
@@ -103,7 +103,7 @@ export default {
                 this.notificate("登陆成功", msg, "success")
                 window.localStorage.setItem('id', response.data.data.user.id)
                 window.localStorage.setItem("token", response.data.data.token)
-                this.$router.push('/main/')
+                this.$router.push('/upload/')
               }
               else
                 this.notificate("登陆失败", response.data.msg, "error")
@@ -112,7 +112,7 @@ export default {
             })
           } else if (this.mode == 'update') {
             axios({
-              url: '/users/'+this.form.id,
+              url: '/user/'+this.form.id,
               method: 'put',
               data: {
                 id: this.form.id,
@@ -120,7 +120,6 @@ export default {
                 password: this.form.password
               },
               params: {
-                token: window.localStorage.getItem('token')
               }
             }).then(response => {
               if (response.data.code == 0)
@@ -138,11 +137,11 @@ export default {
       this.$refs.formRef.resetFields()
       if(this.mode == 'update')
       {
-        axios.get('/auth/info', {
+        axios.get('/user/'+localStorage.getItem("id"), {
           params: {
-            token: window.localStorage.getItem('token')
           },
         }).then((response) => {
+          console.log(response)
           if(response.data.code == 0)
           {
             this.form.id = response.data.data.id

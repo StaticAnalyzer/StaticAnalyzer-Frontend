@@ -12,3 +12,4 @@ app.mount('#app')
 
 app.config.globalProperties.$http = axios;
 axios.defaults.baseURL = '/api';
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
