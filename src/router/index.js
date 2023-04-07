@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import FileUpload from '@/components/FileUpload'
 import UserLogin from '@/components/UserLogin.vue'
 import UserInfo from '@/components/UserInfo.vue'
 import UserRegister from '@/components/UserRegister.vue'
+import ProjectUpload from '@/components/ProjectUpload'
+import ResultsView from '@/components/ResultsView'
+import DetailsView from '@/components/DetailsView'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,7 +33,15 @@ const router = createRouter({
     },
     {
       path: '/upload',
-      component: FileUpload
+      component: ProjectUpload
+    },
+    {
+      path: '/result',
+      component: ResultsView
+    },
+    {
+      path: '/result/:id',
+      component: DetailsView
     }
   ]
 })
