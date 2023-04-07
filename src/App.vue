@@ -1,7 +1,21 @@
 <template>
   <el-container>
-    <el-aside class="menu-container">
-      <el-menu :router="true">
+    <el-header class="menu-container" >
+      <el-menu :router="true" mode="horizontal" :ellipsis="false">
+        <el-menu-item index="/about">Static Analizer</el-menu-item>
+        <div class="flex-grow" />
+        <el-menu-item index="/upload">
+          <template #title>
+            <el-icon><FolderAdd /></el-icon>
+            <span>上传代码包</span>
+          </template>
+        </el-menu-item>
+        <el-menu-item index="/result">
+          <template #title>
+            <el-icon><Memo /></el-icon>
+            <span>查看分析结果</span>
+          </template>
+        </el-menu-item>
         <el-sub-menu index="user">
           <template #title>
             <el-icon><User /></el-icon>
@@ -17,20 +31,8 @@
             <template #title>注册</template>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="/upload">
-          <template #title>
-            <el-icon><FolderAdd /></el-icon>
-            <span>上传代码包</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="/result">
-          <template #title>
-            <el-icon><Memo /></el-icon>
-            <span>查看分析结果</span>
-          </template>
-        </el-menu-item>
       </el-menu>
-    </el-aside>
+    </el-header>
 
     <el-main>
       <router-view></router-view>
@@ -54,26 +56,14 @@ html,
 body,
 #app {
   height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
-</style>
 
-<style scoped>
 .el-container {
   height: 100%;
 }
 
-.el-aside {
-  width: 200px
+.flex-grow {
+  flex-grow: 1;
 }
 
-.el-menu {
-  height: 100%;
-}
-
-.el-main {
-  padding: 0;
-}
 </style>

@@ -103,7 +103,7 @@ export default {
                 this.notificate("登陆成功", msg, "success")
                 window.localStorage.setItem('id', response.data.data.user.id)
                 window.localStorage.setItem("token", response.data.data.token)
-                this.$router.push('/upload/')
+                this.$router.push('/result/')
               }
               else
                 this.notificate("登陆失败", response.data.msg, "error")
@@ -164,8 +164,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  height: 100%;
 }
 
 .user-auth-card {
