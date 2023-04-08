@@ -4,7 +4,7 @@
       <h1 class="upload-card-title">
         上传代码包
       </h1>
-      <el-upload ref="upload" class="file-upload" :http-request="handleUploadFile" :limit="1" :on-exceed="handleExceed" 
+      <el-upload ref="upload" class="file-upload" :http-request="handleUploadFile" :limit="1" :on-exceed="handleExceed"
         accept=".zip, .tar, .tar.gz" :auto-upload="false" :on-success="handleSuccess" :on-error="handleError">
         <template #trigger>
           <el-button class="select_file" type="primary">选择文件</el-button>
@@ -43,22 +43,25 @@ export default {
       this.$refs.upload.handleStart(file)
     },
     async handleUploadFile(param) {
+      let id = window.localStorage.getItem('id')
+      // if (!id) {
+      //   throw { message: "请首先登录" }
+      // }
+
       let formData = new FormData()
-      formData.append('file', param.file)
+      formData.append('id', id)
+      formData.append('sourceCode', param.file)
       formData.append('config', this.config)
 
-      return axios.post('upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'token': window.localStorage.getItem('token'), 
-        }
+      return axios.post('/user/' + id + '/project', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
     },
     submitUpload() {
       this.$refs.upload.submit()
     },
     handleSuccess() {
-      this.$router.push({ name: 'ResultView' })
+      this.$router.push('/result/')
     },
     handleError(error) {
       ElNotification({

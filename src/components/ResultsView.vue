@@ -21,25 +21,31 @@ export default {
     }
   },
   mounted() {
-    axios.get('result', {
-      headers: {
-        'token': window.localStorage.getItem('token'),
-      }
-    }).then((response) => {
-      this.analysis_results = response.data
-    }).catch((error) => {
+    let id = window.localStorage.getItem('id')
+    if (!id) {
       ElNotification({
         title: '获取结果失败',
-        message: error.message,
-        type: 'error'
+        message: '请首先登录',
+        type: 'error',
       })
-    })
+      return
+    }
+
+    axios.get('/user/' + id + '/project')
+      .then((response) => {
+        this.analysis_results = response.data
+      })
+      .catch((error) => {
+        ElNotification({
+          title: '获取结果失败',
+          message: error.message,
+          type: 'error'
+        })
+      })
   },
   methods: {
     onRowClick(row) {
-      this.$router.push({
-        path: '/result/' + row.id
-      })
+      this.$router.push('/result/' + row.id)
     }
   }
 }

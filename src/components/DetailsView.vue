@@ -16,22 +16,28 @@ export default {
     }
   },
   mounted() {
-    axios.get('detials', {
-      params: {
-        id: this.$route.params.id
-      },
-      headers: {
-        'token': window.localStorage.getItem('token'),
-      }
-    }).then((response) => {
-      this.details = response.data
-    }).catch((error) => {
+    let id = window.localStorage.getItem('id')
+    if (!id) {
       ElNotification({
-        title: '获取结果失败',
-        message: error.message,
-        type: 'error'
+        title: '获取列表失败',
+        message: '请首先登录',
+        type: 'error',
       })
-    })
+      return
+    }
+    let project_id = this.$route.params.id
+
+    axios.get('/user/' + id + '/project/' + project_id)
+      .then((response) => {
+        this.details = response.data
+      })
+      .catch((error) => {
+        ElNotification({
+          title: '获取结果失败',
+          message: error.message,
+          type: 'error'
+        })
+      })
   }
 }
 </script>
