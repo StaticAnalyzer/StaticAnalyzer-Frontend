@@ -33,7 +33,17 @@ export default {
 
     axios.get('/user/' + id + '/project')
       .then((response) => {
-        this.analysis_results = response.data
+        this.analysis_results = response.data.data.project_id
+        this.analysis_results = []
+        response.data.data.project_id.forEach(id => {
+          this.analysis_results.push({
+            id: id,
+            name: 'Project-'+ id, 
+            status: '----',
+            config: '----',
+            time: '----'
+          })
+        });
       })
       .catch((error) => {
         ElNotification({

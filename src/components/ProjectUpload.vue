@@ -18,7 +18,7 @@
           </div>
         </template>
       </el-upload>
-      <el-input v-model="config" placeholder="请输入代码构建configuration参数, 默认为空" />
+      <el-input v-model="config" type="textarea" placeholder="请输入代码构建configuration参数, 默认为空" />
     </el-card>
   </div>
 </template>

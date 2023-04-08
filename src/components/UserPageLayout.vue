@@ -86,7 +86,10 @@ export default {
               password: this.form.password
             }).then(response => {
               if (response.data.code == 0)
+              {
                 this.notificate("注册成功", "注册成功", "success")
+                this.$router.push('/login/')
+              }
               else
                 this.notificate("注册失败", response.data.msg, "error")
             }).catch(error => {
@@ -103,6 +106,8 @@ export default {
                 this.notificate("登陆成功", msg, "success")
                 window.localStorage.setItem('id', response.data.data.user.id)
                 window.localStorage.setItem("token", response.data.data.token)
+                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+                this.form.id = response.data.data.user.id
                 this.$router.push('/result/')
               }
               else
@@ -137,15 +142,14 @@ export default {
       this.$refs.formRef.resetFields()
       if(this.mode == 'update')
       {
-        axios.get('/user/'+localStorage.getItem("id"), {
+        axios.get(`/user/${localStorage.getItem("id")}/`, {
           params: {
           },
         }).then((response) => {
-          console.log(response)
           if(response.data.code == 0)
           {
-            this.form.id = response.data.data.id
-            this.form.username = response.data.data.username
+            this.form.id = response.data.data.user.id
+            this.form.username = response.data.data.user.username
             this.notificate("获取成功", "获取成功", "success")
           }
           else
