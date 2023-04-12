@@ -1,10 +1,53 @@
 <template>
   <div class="result-view-wrapper">
-    <el-table :data="analysis_results" @row-click="onRowClick">
-      <el-table-column prop="name" label="压缩包名称" />
-      <el-table-column prop="status" label="分析状态" />
+    <el-table :cell-style="{ textAlign: 'center' }" :header-cell-style="{ 'text-align': 'center' }"
+      :data="analysis_results" @row-click="onRowClick">
+      <el-table-column type="expand">
+        <template #default="props">
+          <el-table :cell-style="{ textAlign: 'center' }" :header-cell-style="{ 'text-align': 'center' }"
+            :data="props.row.analyseBrief" :border="true">
+            <el-table-column prop="analyseType" label="分析类型" />
+            <el-table-column prop="status" label="分析结果状态">
+              <template #default="scope">
+                <div v-if="scope.row.status === 'Pass'">
+                  <el-tag class="ml-2" type="success">Pass</el-tag>
+                </div>
+                <div v-else-if="scope.row.status === 'AnalyseError'">
+                  <el-tag class="ml-2" type="danger">AnalyseError</el-tag>
+                </div>
+                <div v-else-if="scope.row.status === 'Hint'">
+                  <el-tag class="ml-2" type="">Hint</el-tag>
+                </div>
+                <div v-else-if="scope.row.status === 'Info'">
+                  <el-tag class="ml-2" type="info">Info</el-tag>
+                </div>
+                <div v-else-if="scope.row.status === 'Warning'">
+                  <el-tag class="ml-2" type="warning">Warning</el-tag>
+                </div>
+                <div v-else-if="scope.row.status === 'Error'">
+                  <el-tag class="ml-2" type="danger">Error</el-tag>
+                </div>
+              </template>
+            </el-table-column>  
+          </el-table>
+        </template>
+      </el-table-column>
+      <el-table-column prop="id" label="#" />
+      <el-table-column prop="timestamp" label="上传时间" />
+      <el-table-column prop="status" label="分析状态">
+        <template #default="scope">
+          <div v-if="scope.row.status === 'Complete'">
+            <el-tag class="ml-2" type="success">Complete</el-tag>
+          </div>
+          <div v-else-if="scope.row.status === 'Queueing'">
+            <el-tag class="ml-2">Queueing</el-tag>
+          </div>
+          <div v-else-if="scope.row.status === 'Error'">
+            <el-tag class="ml-2" type="danger">Error</el-tag>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="config" label="配置参数" />
-      <el-table-column prop="time" label="上传时间" />
     </el-table>
   </div>
 </template>
@@ -17,7 +60,54 @@ export default {
   name: 'ResultsView',
   data() {
     return {
-      analysis_results: []
+      analysis_results: [
+        {
+          "id": 1,
+          "timestamp": "2023-4-12 00:00:01",
+          "status": "Complete",
+          "config": "",
+          "analyseBrief": [
+            {
+              "analyseType": "Analysis1",
+              "status": "Pass"
+            },
+            {
+              "analyseType": "Analysis2",
+              "status": "AnalyseError"
+            },
+            {
+              "analyseType": "Analysis3",
+              "status": "Hint"
+            },
+            {
+              "analyseType": "Analysis4",
+              "status": "Info"
+            },
+            {
+              "analyseType": "Analysis5",
+              "status": "Warning"
+            },
+            {
+              "analyseType": "Analysis6",
+              "status": "Error"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "timestamp": "2023-4-12 00:00:02",
+          "status": "Queueing",
+          "config": "",
+          "analyseBrief": []
+        },
+        {
+          "id": 3,
+          "timestamp": "2023-4-12 00:00:03",
+          "status": "Error",
+          "config": "",
+          "analyseBrief": []
+        }
+      ]
     }
   },
   mounted() {
@@ -38,7 +128,7 @@ export default {
         response.data.data.project_id.forEach(id => {
           this.analysis_results.push({
             id: id,
-            name: 'Project-'+ id, 
+            name: 'Project-' + id,
             status: '----',
             config: '----',
             time: '----'
