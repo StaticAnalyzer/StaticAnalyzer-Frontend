@@ -5,6 +5,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import axios from 'axios';
 
+// require('./mock/index.js')   // 启用数据模拟
+
 const app = createApp(App);
 app.use(ElementPlus)
 app.use(router)
