@@ -28,6 +28,14 @@ export default {
   },
   methods: {
     setContent(code, analyseResults) {
+      this.setCode(code)
+      this.setAnalyseResults(analyseResults)
+    },
+    setCode(code) {
+      this.code = code
+      this.editor.setValue(code)
+    },
+    setAnalyseResults(analyseResults) {
       /*
       analyseResult=[
         {
@@ -40,9 +48,7 @@ export default {
         }
       ]
       */
-      this.code = code
       this.analyseResults = analyseResults
-      this.editor.setValue(code)
 
       // 创建 Marker
       let markers = analyseResults.map((analyseResult) => ({
@@ -56,7 +62,7 @@ export default {
 
       // 显示 Marker
       monaco.editor.setModelMarkers(this.editor.getModel(), 'cpp', markers);
-    }
+    },
   }
 }
 </script>
