@@ -60,54 +60,7 @@ export default {
   name: 'ResultsView',
   data() {
     return {
-      analysis_results: [
-        {
-          "id": 1,
-          "timestamp": "2023-4-12 00:00:01",
-          "status": "Complete",
-          "config": "",
-          "analyseBrief": [
-            {
-              "analyseType": "Analysis1",
-              "status": "Pass"
-            },
-            {
-              "analyseType": "Analysis2",
-              "status": "AnalyseError"
-            },
-            {
-              "analyseType": "Analysis3",
-              "status": "Hint"
-            },
-            {
-              "analyseType": "Analysis4",
-              "status": "Info"
-            },
-            {
-              "analyseType": "Analysis5",
-              "status": "Warning"
-            },
-            {
-              "analyseType": "Analysis6",
-              "status": "Error"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "timestamp": "2023-4-12 00:00:02",
-          "status": "Queueing",
-          "config": "",
-          "analyseBrief": []
-        },
-        {
-          "id": 3,
-          "timestamp": "2023-4-12 00:00:03",
-          "status": "Error",
-          "config": "",
-          "analyseBrief": []
-        }
-      ]
+      analysis_results: []
     }
   },
   mounted() {
@@ -123,17 +76,8 @@ export default {
 
     axios.get('/user/' + id + '/project')
       .then((response) => {
-        this.analysis_results = response.data.data.project_id
-        this.analysis_results = []
-        response.data.data.project_id.forEach(id => {
-          this.analysis_results.push({
-            id: id,
-            name: 'Project-' + id,
-            status: '----',
-            config: '----',
-            time: '----'
-          })
-        });
+        console.log(response.data)
+        this.analysis_results = response.data.data
       })
       .catch((error) => {
         ElNotification({

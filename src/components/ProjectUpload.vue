@@ -18,7 +18,7 @@
           </div>
         </template>
       </el-upload>
-      <el-input v-model="config" type="textarea" placeholder="请输入代码构建configuration参数, 默认为空" />
+      <el-input v-model="config" type="textarea" autosize placeholder="请输入代码构建configuration参数, 默认为空" />
     </el-card>
   </div>
 </template>
@@ -32,7 +32,22 @@ export default {
   name: 'ProjectUpload',
   data() {
     return {
-      config: '',
+      config: `Framework
+  {
+          queue_size = 100
+  }
+  
+  PrintLog
+  {
+          level = 0
+          taintChecker = false
+          TemplateChecker = false
+          arrayBound = false
+          recursiveCall = false
+          divideChecker = false
+          memoryOPChecker = false
+  }
+  `,
     }
   },
   methods: {
