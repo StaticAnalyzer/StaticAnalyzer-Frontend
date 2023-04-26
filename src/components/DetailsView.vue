@@ -69,7 +69,11 @@ export default {
     handleFileClick(filePath) {
       let id = this.getId();
       let project_id = this.$route.params.id;
-      axios.get(`/user/${id}/project/${project_id}/${filePath}`)
+      axios.get(`/user/${id}/project/${project_id}/file`, {
+          params: {
+            path: filePath
+          }
+        })
         .then((response) => {
           this.$refs.editor.setContent(response.data.data.src, response.data.data.analyseResults)
         })
