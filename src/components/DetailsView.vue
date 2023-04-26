@@ -27,20 +27,19 @@ export default {
     let project_id = this.$route.params.id;
     axios.get("/user/" + id + "/project/" + project_id)
       .then((response) => {
+        console.log(response.data)
         let fileTreeRaw = response.data.data
         let newFileTree = []
 
-        fileTreeRaw["directories"].forEach(
-          element => newFileTree.push(this.processSubDirectory(element))
-        )
+        for (let key in fileTreeRaw["directories"])
+          newFileTree.push(this.processSubDirectory(fileTreeRaw["directories"][key]))
         
-        fileTreeRaw["files"].forEach(element => {
+        for (let key in fileTreeRaw["files"])
           newFileTree.push({
-            "label": element["name"],
-            "textType": this.serverityToTextType(element["severity"]),
+            "label": fileTreeRaw["files"][key]["name"],
+            "textType": this.serverityToTextType(fileTreeRaw["files"][key]["severity"]),
             "baseDir": ""
           })
-        });
 
         this.fileTree = newFileTree
 
@@ -109,17 +108,16 @@ export default {
       } else {
         newBaseDir = baseDir + "/" + data["name"]
       }
-      data["directories"].forEach(
-        element => result["children"].push(this.processSubDirectory(element, newBaseDir))
-      )
+      
+      for (let key in data["directories"])
+        result["children"].push(this.processSubDirectory(data["directories"][key], newBaseDir))
 
-      data["files"].forEach(element => {
+      for (let key in data["files"])
         result["children"].push({
-          "label": element["name"],
-          "textType": this.serverityToTextType(element["severity"]),
+          "label": data["files"][key]["name"],
+          "textType": this.serverityToTextType(data["files"][key]["severity"]),
           "baseDir": newBaseDir
         })
-      });
 
       return result
     }
