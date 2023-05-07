@@ -31,6 +31,10 @@ export default {
       this.setCode(code)
       this.setAnalyseResults(analyseResults)
     },
+    getCode() {
+      this.code = this.editor.getValue()
+      return this.code
+    },
     setCode(code) {
       this.code = code
       this.editor.setValue(code)

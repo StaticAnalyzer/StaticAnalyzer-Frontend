@@ -5,6 +5,7 @@ import UserRegister from '@/components/UserRegister.vue'
 import ProjectUpload from '@/components/ProjectUpload'
 import ResultsView from '@/components/ResultsView'
 import DetailsView from '@/components/DetailsView'
+import PlaygroundVue from '@/components/Playground.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,6 +43,10 @@ const router = createRouter({
     {
       path: '/result/:id',
       component: DetailsView
+    },
+    {
+      path: '/playground',
+      component: PlaygroundVue
     }
   ]
 })

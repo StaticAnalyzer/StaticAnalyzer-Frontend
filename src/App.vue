@@ -4,6 +4,12 @@
       <el-menu :router="true" mode="horizontal" :ellipsis="false">
         <el-menu-item index="/about">Static Analizer</el-menu-item>
         <div class="flex-grow" />
+        <el-menu-item index="/playground">
+          <template #title>
+            <el-icon><EditPen /></el-icon>
+            <span>即时测试</span>
+          </template>
+        </el-menu-item>
         <el-menu-item index="/upload">
           <template #title>
             <el-icon><FolderAdd /></el-icon>
@@ -41,12 +47,12 @@
 </template>
 
 <script>
-import {User, FolderAdd, Memo} from '@element-plus/icons-vue'
+import {User, FolderAdd, Memo, EditPen} from '@element-plus/icons-vue'
 
 export default {
   name: 'App',
   components: {
-    User, FolderAdd, Memo
+    User, FolderAdd, Memo, EditPen
   }
 }
 </script>
