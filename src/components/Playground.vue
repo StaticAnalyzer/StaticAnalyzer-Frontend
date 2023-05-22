@@ -4,7 +4,6 @@
             <el-button class="ml-3 upload_btn" type="success" @click="submitTest">
                 测试
             </el-button>
-            <el-input v-model="config" type="textarea" autosize placeholder="请输入代码构建configuration参数, 默认为空" />
         </el-aside>
         <el-main>
             <CodeView ref="editor" />
@@ -21,22 +20,7 @@ export default {
     name: "DetailsView",
     data() {
         return {
-            config: `Framework
-  {
-          queue_size = 100
-  }
-  
-  PrintLog
-  {
-          level = 0
-          taintChecker = false
-          TemplateChecker = false
-          arrayBound = false
-          recursiveCall = false
-          divideChecker = false
-          memoryOPChecker = false
-  }
-  `
+            config: ""
         };
     },
     mounted() {
