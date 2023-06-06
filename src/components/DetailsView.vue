@@ -3,9 +3,19 @@
     <el-aside>
       <FileTree :dataSource="fileTree" @file-click="handleFileClick" />
     </el-aside>
-    <el-main>
+    <el-container>
+      <el-main>
       <CodeView ref="editor" />
-    </el-main>
+      </el-main>
+      <el-footer height="20%">
+        <el-table :data="problemData" height="100%" @row-click="handleProblemClick">
+          <el-table-column prop="file" label="文件" min-width="20" sortable />
+          <el-table-column prop="line" label="行" min-width="10" />
+          <el-table-column prop="severity" label="严重性" min-width="10" sortable />
+          <el-table-column prop="message" label="描述" min-width="65" />
+        </el-table>
+      </el-footer>
+    </el-container>
   </el-container>
 </template>
 
@@ -19,7 +29,8 @@ export default {
   name: "DetailsView",
   data() {
     return {
-      fileTree: []
+      fileTree: [],
+      problemData: []
     };
   },
   mounted() {
@@ -27,7 +38,6 @@ export default {
     let project_id = this.$route.params.id;
     axios.get("/user/" + id + "/project/" + project_id)
       .then((response) => {
-        console.log(response.data)
         let fileTreeRaw = response.data.data
         let newFileTree = []
 
@@ -43,6 +53,18 @@ export default {
 
         this.fileTree = newFileTree
 
+      })
+      .catch((error) => {
+        ElNotification({
+          title: "获取结果失败",
+          message: error.message,
+          type: "error"
+        });
+      });
+
+      axios.get("/user/" + id + "/project/" + project_id + "/problem")
+      .then((response) => {
+        this.problemData = response.data.data
       })
       .catch((error) => {
         ElNotification({
@@ -84,6 +106,9 @@ export default {
             type: "error"
           });
         });
+    },
+    handleProblemClick(row) {
+      this.handleFileClick(row.file)
     },
     serverityToTextType(severity) {
       switch (severity) {
@@ -130,7 +155,5 @@ export default {
 </script>
 
 <style>
-.detials-wrapper {
-  padding: 20px;
-}
+
 </style>
