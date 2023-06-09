@@ -18,6 +18,25 @@
           </div>
         </template>
       </el-upload>
+      <el-form :model="configForm" label-position="right" label-width="auto">
+        <el-form-item label="C/C++ Standard">
+          <el-input v-model="configForm.std" />
+        </el-form-item>
+        <el-form-item label="Include Paths">    
+          <div v-for="(item, index) in configForm.includeDirs" :key="index" style="display: flex;">
+            <el-input v-model="configForm.includeDirs[index]" clearable placeholder="e.g. path/to/include/"></el-input>
+            <el-button circle @click="addListOption(configForm.includeDirs)"><el-icon><Plus /></el-icon></el-button>
+            <el-button circle @click="subListOption(configForm.includeDirs, index)" v-if="index>0"><el-icon><Minus /></el-icon></el-button>
+          </div>
+        </el-form-item>
+        <el-form-item label="Predefined Macros">    
+          <div v-for="(item, index) in configForm.defMacros" :key="index" style="display: flex;">
+            <el-input v-model="configForm.defMacros[index]" clearable placeholder="e.g. NDEBUG"></el-input>
+            <el-button circle @click="addListOption(configForm.defMacros)"><el-icon><Plus /></el-icon></el-button>
+            <el-button circle @click="subListOption(configForm.defMacros, index)" v-if="index>0"><el-icon><Minus /></el-icon></el-button>
+          </div>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -26,12 +45,22 @@
 import { genFileId } from 'element-plus'
 import axios from 'axios'
 import { ElNotification } from 'element-plus'
+import {Plus, Minus} from '@element-plus/icons-vue'
+
 
 export default {
   name: 'ProjectUpload',
+  components: {
+    Plus,
+    Minus
+  },
   data() {
     return {
-      config: "",
+      configForm: {
+        std: "c++11",
+        includeDirs: [""],
+        defMacros: [""]
+      }
     }
   },
   methods: {
@@ -46,11 +75,15 @@ export default {
       // if (!id) {
       //   throw { message: "请首先登录" }
       // }
+      
+      let config = this.configForm
+      config.includeDirs = config.includeDirs.filter(item => item !== "")
+      config.defMacros = config.defMacros.filter(item => item !== "")
 
       let formData = new FormData()
       formData.append('id', id)
       formData.append('sourceCode', param.file)
-      formData.append('config', this.config)
+      formData.append('config', JSON.stringify(config))
 
       return axios.post('/user/' + id + '/project', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
@@ -68,6 +101,12 @@ export default {
         message: error.message,
         type: 'error',
       })
+    },
+    addListOption(list) {
+      list.push("")
+    },
+    subListOption(list, index) {
+      list.splice(index, 1)
     }
   },
 }
@@ -82,7 +121,7 @@ export default {
 }
 
 .upload-card {
-  width: 400px;
+  width: 500px;
 }
 
 .file-upload .select_file {
@@ -91,5 +130,9 @@ export default {
 
 .file-upload .upload_btn {
   margin-left: 10px;
+}
+
+.el-form-item {
+  margin-right: 0 !important;
 }
 </style>
