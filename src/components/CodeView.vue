@@ -39,6 +39,11 @@ export default {
       this.code = code
       this.editor.setValue(code)
     },
+    moveCursor(line, column) {
+      this.editor.setPosition({"lineNumber": line, "column": column})
+      this.editor.revealLineInCenter(line)
+      this.editor.focus()
+    },
     setAnalyseResults(analyseResults) {
       /*
       analyseResult=[
