@@ -7,8 +7,8 @@
       <el-main>
       <CodeView ref="editor" />
       </el-main>
+      <el-footer>
         <el-button type="primary" @click="showProblemDrawer = true">Problems</el-button>
-      <el-footer height="10%">
       </el-footer>
     </el-container>
   </el-container>
