@@ -148,8 +148,8 @@ export default {
         }).then((response) => {
           if(response.data.code == 0)
           {
-            this.form.id = response.data.data.user.id
-            this.form.username = response.data.data.user.username
+            this.form.id = response.data.data.id
+            this.form.username = response.data.data.username
             this.notificate("获取成功", "获取成功", "success")
           }
           else
